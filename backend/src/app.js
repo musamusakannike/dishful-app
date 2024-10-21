@@ -9,6 +9,7 @@ require('dotenv').config();
 const middlewares = require('./middlewares');
 
 const authRoutes = require("./routes/auth.route")
+const recipeRoutes = require("./routes/recipe.route")
 
 connectDB()
 const app = express();
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/recipe", recipeRoutes);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
