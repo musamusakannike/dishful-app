@@ -209,8 +209,44 @@ const genRandomRecipe = async (req, res) => {
   }
 };
 
+const genLeftoversRecipe = async (req, res) => {
+  const { leftovers, additionalText = "" } = req.body;
+
+  // Validate that leftovers are provided and it's a non-empty array
+  if (!Array.isArray(leftovers) || leftovers.length === 0) {
+    return res
+      .status(400)
+      .json({ error: "Leftover ingredients are required and cannot be empty" });
+  }
+
+  try {
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-pro",
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: recipeSchema,
+      },
+    });
+
+    const prompt = `Create a recipe using the following leftover ingredients: ${leftovers.join(
+      ", "
+    )}. ${
+      additionalText ? `${additionalText}.` : ""
+    } Include the title, ingredients, steps, source, location, nutrition, difficulty level, time estimate, pairings, and possible substitutions.`;
+
+    const result = await model.generateContent(prompt);
+    const recipe = JSON.parse(result.response.text());
+
+    return res.json(recipe);
+  } catch (error) {
+    console.error("Error generating leftovers recipe:", error);
+    res.status(500).json({ error: "Failed to generate the leftovers recipe" });
+  }
+};
+
 module.exports = {
   genTextRecipe,
   genIngredientsRecipe,
   genRandomRecipe,
+  genLeftoversRecipe, // Export the new controller
 };
