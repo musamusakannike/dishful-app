@@ -180,7 +180,11 @@ const genIngredientsRecipe = async (req, res) => {
 };
 
 const genRandomRecipe = async (req, res) => {
-  const { additionalText = "" } = req.body; // Optional additional text
+  const { additionalText } = req.body;
+
+  if (additionalText && typeof additionalText !== "string") {
+    return res.status(400).json({ error: "Additional text must be a string" });
+  }
 
   try {
     const model = genAI.getGenerativeModel({
