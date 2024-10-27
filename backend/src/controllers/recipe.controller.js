@@ -2,9 +2,9 @@ const { GoogleGenerativeAI, SchemaType } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
-// Define the recipe schema
+// Extended Recipe Schema with new properties
 const recipeSchema = {
-  description: "Complete recipe structure",
+  description: "Complete recipe structure with additional information",
   type: SchemaType.OBJECT,
   properties: {
     title: {
@@ -34,10 +34,46 @@ const recipeSchema = {
       type: SchemaType.STRING,
       description: "Any additional information about the recipe",
     },
+    nutritionalInfo: {
+      type: SchemaType.OBJECT,
+      description: "Nutritional information about the recipe",
+      properties: {
+        calories: { type: SchemaType.STRING, description: "Calories per serving" },
+        protein: { type: SchemaType.STRING, description: "Protein content" },
+        fat: { type: SchemaType.STRING, description: "Fat content" },
+        carbs: { type: SchemaType.STRING, description: "Carbohydrates content" },
+      },
+    },
+    difficulty: {
+      type: SchemaType.STRING,
+      description: "Recipe difficulty level (easy, medium, hard)",
+    },
+    timeEstimate: {
+      type: SchemaType.STRING,
+      description: "Estimated time required to make the dish",
+    },
+    pairings: {
+      type: SchemaType.ARRAY,
+      description: "Suggested pairings with the recipe",
+      items: { type: SchemaType.STRING },
+    },
+    substitutions: {
+      type: SchemaType.ARRAY,  // Corrected to ARRAY to avoid additionalProperties usage
+      description: "Possible ingredient substitutions",
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          ingredient: { type: SchemaType.STRING, description: "Original ingredient" },
+          substitute: { type: SchemaType.STRING, description: "Suggested substitute" },
+        },
+      },
+    },
   },
   required: ["title", "ingredients", "steps"],
 };
 
+
+// Generate Recipe by Food Name
 const genTextRecipe = async (req, res) => {
   const { food } = req.body;
 
@@ -56,8 +92,7 @@ const genTextRecipe = async (req, res) => {
       },
     });
 
-    // Generate the recipe
-    const prompt = `Provide a complete recipe for ${food} including title, ingredients, steps, recipe source, food location, and other necessary details.`;
+    const prompt = `Provide a complete recipe for ${food}, including title, ingredients, steps, source, location, nutritional information, difficulty, time estimate, pairings, and substitutions.`;
     const result = await model.generateContent(prompt);
 
     const recipe = JSON.parse(result.response.text());
@@ -67,6 +102,8 @@ const genTextRecipe = async (req, res) => {
     res.status(500).json({ error: "Failed to generate the recipe" });
   }
 };
+
+// Generate Recipe by Ingredients
 const genIngredientsRecipe = async (req, res) => {
   const { ingredients } = req.body;
 
@@ -100,15 +137,13 @@ const genIngredientsRecipe = async (req, res) => {
       },
     });
 
-    // Generate recipe(s) based on the given ingredients
     const prompt = `Based on the following ingredients: ${ingredients.join(
       ", "
-    )}, provide a suitable recipe. If no matching recipe exists, respond with a message saying 'No recipe available'. If multiple foods match, provide the first recipe and add others under 'otherRecipes'.`;
+    )}, provide a suitable recipe. If no matching recipe exists, respond with 'No recipe available'. If multiple foods match, provide the first recipe and include others under 'otherRecipes'. Include nutritional information, difficulty, time estimate, pairings, and substitutions.`;
 
     const result = await model.generateContent(prompt);
     const response = JSON.parse(result.response.text());
 
-    // Handle the response from the model
     if (response.message && response.message.includes("No recipe available")) {
       return res.status(404).json({ message: response.message });
     }
