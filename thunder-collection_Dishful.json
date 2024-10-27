@@ -1,0 +1,87 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Dishful",
+    "collectionId": "23df06c1-b1ef-4ed6-a1ba-fd31dc70e018",
+    "dateExported": "2024-10-27T07:10:21.839Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "eb80459f-8d3e-45df-8331-cca19e28247b",
+            "name": "Auth",
+            "containerId": "",
+            "created": "2024-10-27T06:56:06.391Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "c2b89c27-cff5-4bbe-86ac-9f93199e9b87",
+            "name": "AI",
+            "containerId": "",
+            "created": "2024-10-27T06:58:54.606Z",
+            "sortNum": 20000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "508f91af-863c-431d-9348-b11f113e1593",
+            "colId": "23df06c1-b1ef-4ed6-a1ba-fd31dc70e018",
+            "containerId": "eb80459f-8d3e-45df-8331-cca19e28247b",
+            "name": "Register",
+            "url": "http://localhost:8080/api/v1/auth/register",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-10-27T06:56:18.312Z",
+            "modified": "2024-10-27T06:57:42.714Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"ahmadtijani\",\n  \"email\": \"ahmadtijani@gmail.com\",\n  \"password\": \"password123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "01b2508d-fb1e-4732-878c-f7bc2136fffd",
+            "colId": "23df06c1-b1ef-4ed6-a1ba-fd31dc70e018",
+            "containerId": "c2b89c27-cff5-4bbe-86ac-9f93199e9b87",
+            "name": "Text to recipe",
+            "url": "http://localhost:8080/api/v1/recipe/text-recipe",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-10-27T06:59:10.561Z",
+            "modified": "2024-10-27T07:07:05.045Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzFkZTQ2NjU4NGJlYWE1NTU2NDUyNzciLCJ1c2VybmFtZSI6ImFobWFkdGlqYW5pIiwiaWF0IjoxNzMwMDEyMjYyLCJleHAiOjE3MzAyNzE0NjJ9.J9g3kStGqOiuCD1ugYp6dp1pq57D_cMfB98cDEmS3YE"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"food\": \"Jollof Rice\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "04deb067-781a-4af4-b958-756d170b71f7",
+            "colId": "23df06c1-b1ef-4ed6-a1ba-fd31dc70e018",
+            "containerId": "c2b89c27-cff5-4bbe-86ac-9f93199e9b87",
+            "name": "Ingredients to recipe",
+            "url": "http://localhost:8080/api/v1/recipe/ingredients-recipe",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-10-27T07:06:32.838Z",
+            "modified": "2024-10-27T07:09:21.850Z",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzFkZTQ2NjU4NGJlYWE1NTU2NDUyNzciLCJ1c2VybmFtZSI6ImFobWFkdGlqYW5pIiwiaWF0IjoxNzMwMDEyMjYyLCJleHAiOjE3MzAyNzE0NjJ9.J9g3kStGqOiuCD1ugYp6dp1pq57D_cMfB98cDEmS3YE"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ingredients\": [\"salt\", \"maggi\", \"beans\", \"rice\", \"vegetable oil\", \"onion\"]\n}",
+                "form": []
+            }
+        }
+    ],
+    "ref": "2fjgSrOqp_cvlSIFvyo9RFP8aO1O4VI78NDMr33J-XaP9rzjBo4_7WgLlGB7PU9zctpu8aJ5f29NFCUldk_35Q"
+}
