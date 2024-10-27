@@ -99,7 +99,28 @@ const loginUser = async (req, res) => {
   }
 };
 
+// Get current user
+const getCurrentUser = async (req, res) => {
+  try {
+    // Check if user is authenticated
+    if (!req.user) {
+      return handleResponse(res, 401, "error", "Unauthorized");
+    }
+
+    // Get user data
+    const user = await User.findById(req.user.userId);
+
+    // Respond with user data
+    return handleResponse(res, 200, "success", "User retrieved successfully", {
+      user: { username: user.username, email: user.email },
+    });
+  } catch (error) {
+    return handleResponse(res, 500, "error", "Server error", error.message);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  getCurrentUser,
 };
