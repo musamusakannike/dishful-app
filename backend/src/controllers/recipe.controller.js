@@ -179,7 +179,34 @@ const genIngredientsRecipe = async (req, res) => {
   }
 };
 
+const genRandomRecipe = async (req, res) => {
+  const { additionalText = "" } = req.body; // Optional additional text
+
+  try {
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-pro",
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: recipeSchema,
+      },
+    });
+
+    const prompt = `Generate a random recipe. ${
+      additionalText ? `${additionalText}.` : ""
+    } Include the title, ingredients, steps, recipe source, food location, nutritional information, difficulty level, time estimate, pairings, and substitutions.`;
+
+    const result = await model.generateContent(prompt);
+    const recipe = JSON.parse(result.response.text());
+
+    return res.json(recipe);
+  } catch (error) {
+    console.error("Error generating random recipe:", error);
+    res.status(500).json({ error: "Failed to generate the random recipe" });
+  }
+};
+
 module.exports = {
   genTextRecipe,
   genIngredientsRecipe,
+  genRandomRecipe,
 };
