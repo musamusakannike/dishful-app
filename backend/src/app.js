@@ -22,7 +22,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
-    message: "SERVER IS RUNNING...",
+    message: "SERVER IS RUNNING....",
   });
 });
 
