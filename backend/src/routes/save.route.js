@@ -9,4 +9,7 @@ router.get("/", authenticate, getSavedItems);
 // POST RECIPE TO SAVE
 router.post("/", authenticate, saveItem);
 
+// DELETE SAVED RECIPE
+router.delete("/:id", authenticate, deleteSavedItem);
+
 module.exports = router;

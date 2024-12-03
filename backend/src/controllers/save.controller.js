@@ -30,6 +30,26 @@ const saveItem = async (req, res) => {
   }
 };
 
+// DELETE a saved recipe by ID
+const deleteSavedItem = async (req, res) => {
+  try {
+    const userId = req.user.userId; // Ensure the user is authenticated
+    const recipeId = req.params.id;
+
+    // Find the recipe and verify ownership
+    const recipe = await Recipe.findOne({ _id: recipeId, user: userId });
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found or unauthorized" });
+    }
+
+    // Delete the recipe
+    await Recipe.deleteOne({ _id: recipeId });
+    res.status(200).json({ message: "Recipe deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete recipe", error });
+  }
+};
+
 module.exports = {
   getSavedItems,
   saveItem,
