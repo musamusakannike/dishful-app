@@ -1,6 +1,6 @@
 const express = require("express");
 const authenticate = require("../middlewares/auth.middleware");
-const { saveItem, getSavedItems } = require("../controllers/save.controller");
+const { saveItem, getSavedItems, deleteSavedItem } = require("../controllers/save.controller");
 const router = express.Router();
 
 // GET SAVED RECIPES

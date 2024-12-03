@@ -53,4 +53,5 @@ const deleteSavedItem = async (req, res) => {
 module.exports = {
   getSavedItems,
   saveItem,
+  deleteSavedItem
 };
